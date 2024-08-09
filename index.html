@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Countdown Timer</title>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+	<script src="js/jquery-3.4.1.min.js"></script>
+	<style>
+		html,body {
+			width:100%;
+			height:100%;
+			margin:0;
+			padding:0;
+			overflow:hidden;
+		}
+		body {
+			background-color:#000;
+			background-position: center center;
+		}
+		#time {
+			position:relative;
+		}
+		#can {
+			margin:0;
+			padding:0;
+			position:absolute;
+			left:0;
+			top:0;
+			z-index:20;
+		}
+		thead {
+			color: white;
+		}
+		td {
+			height: 40px;
+			width: 40px;
+		}
+
+		#calendar2 {
+			text-align: center;
+			font-family: "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, sans-serif;
+			font-style: normal;
+			font-size: x-large;
+			margin: 0;
+			padding: 0;
+			right:0;
+			top:0;
+			float: right;
+			position: absolute;
+			opacity: 1;
+			z-index: 30;
+		}
+		#calendar2 thead tr:last-child {
+			font-size: medium;
+			color: white;
+		}
+		#calendar2 thead tr:nth-child(1) td:nth-child(2) {
+		  color: white;
+		}
+		#calendar2 thead tr:nth-child(1) td:nth-child(1):hover, #calendar2 thead tr:nth-child(1) td:nth-child(3):hover {
+			cursor: pointer;
+			color: #FFFFFF;
+		}
+		#calendar2 tbody td {
+		  color: white;
+		}
+		#calendar2 tbody td:nth-child(7), #calendar2 .holiday {
+			color: rgba(255,0,4,1.00);
+		}
+		#calendar2 tbody td:nth-child(1), #calendar2 .holiday {
+			color: rgba(255,0,4,1.00);
+		}
+		#calendar2 tbody td.today {
+			background-color: rgba(255,255,255,0.20);
+			border-radius: 5px;
+			font-weight: 600;
+		}
+	</style>
+</head>
+
+<body>
+
+    <div id="videoBox">
+      <video loop autoplay>
+          <source src="./video/bg.1080p.vp8.vorbis.webm" type="video/webm"/>
+          your browser does not support the video tag
+      </video>
+    </div>
+    <div id="audioBox">
+      <audio id="Music" controls >
+        <source src="./bgm/bgm0.mp3" type="audio/mp3"/>
+      </audio>
+      <div class="infoBox">
+          <p class="">
+              Creator: dinhkarate
+      </div>
+    </div>
+
+<div id="main">
+  <div class="container">
+    <h1 align="center">To do list</h1>
+    <div class="squaredcheck">
+      <input type="checkbox" value="None" id="squaredcheck" class="checkbox1" name="check" checked />
+      <label for="squaredcheck"><span>Anki</span></label>
+    </div>
+    <div class="squaredcheck">
+      <input type="checkbox" value="None" id="squaredcheck2" class="checkbox2" name="check"  />
+      <label for="squaredcheck2"><span>Gym</span></label>
+    </div>
+    <div class="squaredcheck">
+      <input type="checkbox" value="None" id="squaredcheck3" class="checkbox3" name="check"  />
+      <label for="squaredcheck3"><span>Nothing yet</span></label>
+    </div>
+	<h1 align="center">Not to do list</h1>
+    <div class="squaredcheck">
+      <input type="checkbox" value="None" id="squaredcheck" class="checkbox4" name="check" checked />
+      <label for="squaredcheck"><span>Nothing yet</span></label>
+    </div>
+    <div class="squaredcheck">
+      <input type="checkbox" value="None" id="squaredcheck2" class="checkbox5" name="check"  />
+      <label for="squaredcheck2"><span>Nothing yet</span></label>
+    </div>
+    <div class="squaredcheck">
+      <input type="checkbox" value="None" id="squaredcheck3" class="checkbox6" name="check"  />
+      <label for="squaredcheck3"><span>Nothing yet</span></label>
+    </div>
+  </div>
+</div>
+
+
+    <div class="body-container">
+        <div id="counter-lable" class="counter-lable"></div>
+        <table class="counter">
+            <tr class="time-row">
+                <td id="days" class="days"></td>
+                <td id="hours" class="hours"></td>
+                <td id="minutes" class="minutes"></td>
+                <td id="seconds" class="seconds"></td>
+            </tr>
+            <tr class="lable-row">
+                <td class="days-lable">Days</td>
+                <td class="hours-lable">Hours</td>
+                <td class="minutes-lable">Minutes</td>
+                <td class="seconds-lable">Seconds</td>
+            </tr>
+            <div class="current">
+                <div id="current-day" class="current-day"></div>
+                <div id="current-time" class="current-time"></div>
+                <div id="current-date" class="current-date"></div>
+            </div>
+        </table>
+    </div>
+	
+	
+	
+	
+	
+	<canvas id="can">canvas</canvas>
+	
+    <script src= "http://player.twitch.tv/js/embed/v1.js"></script>
+    <div id="stream" frameborder="0" scrolling="no" style="z-index:5;"></div>
+	<table id="calendar2">
+	<thead>
+		<tr><td>‹<td colspan="5"><td>›
+		<tr><td>Sun<td>Mon<td>Tue<td>Wed<td>Thu<td>Fri<td>Sat
+	<tbody>
+		<script type="text/javascript" src="clock.js"></script>
+	</tbody>
+	</table>
+	<script>
+		window.requestAnimFrame = (function(){
+			return  window.requestAnimationFrame       ||
+					window.webkitRequestAnimationFrame ||
+					window.mozRequestAnimationFrame    ||
+					function( callback ){
+						window.setTimeout(callback, 1000 / 60);
+					};
+		})();
+		var w, h, minW;
+		var show = document.querySelector("#show");
+		function showi(str){
+			show.innerHTML = str;
+		}
+		var calendar = document.querySelector("#calendar2");
+		
+		var tStyle = true;
+		/* 时间 */
+		function getTime(){
+			var t = new Date();
+			if(tStyle){
+				oClock.innerHTML = add0(t.getHours())+" : "+add0(t.getMinutes())+" <span class='sec'>"+add0(t.getSeconds())+"</span>";
+			}else{
+				var h = t.getHours();
+				var str = h<12 ? "AM" : "PM";
+				h = h<=12 ? h : h-12;
+				oClock.innerHTML = "<span id='time'>"+add0(h)+" : "+add0(t.getMinutes())+" <span class='sec'>"+add0(t.getSeconds())+"</span><span class='st'>"+str+"</span></span>";
+			}
+		};
+		function autoTime(){
+			getTime();
+			setTimeout(autoTime, 1000);
+		}
+		function add0(n){
+			return n<10 ? '0'+n : ''+n;
+		}
+		autoTime();
+
+		// 设定参数
+		var param = {
+			style : 1, // 样式
+			r : 0.4, // 圆的半径
+			color : "rgba(255,255,255,0.8)", // 颜色
+			blurColor : "cyan", // 模糊颜色
+			arr1 : [], // 外圆点集合
+			arr2 : [], // 内圆点集合
+			rotation : 2, // 是否旋转
+			offsetAngle : 0, //旋转角度
+			arr : [],  // 获取到的频谱数组
+			waveArr : new Array(120),
+			cX : 0.6, // 圆中心点在x轴位置
+			cY : 0.3,
+			tX : 60,
+			tY : 30,
+			calX : 85,
+			calY : 20,
+			range : 5, // 振幅
+			shadowBlur: 15,
+			lineWidth : 3,
+			cal : true,
+			monster : false,
+			showCircle : true,
+			isBlur: false
+		};
+		
+		var can = document.querySelector("#can");
+		var ctx = can.getContext("2d");
+		
+
+
+		window.onresize = resize;
+
+		
+
+		/* 监听配置 */
+		window.wallpaperPropertyListener={
+            applyUserProperties: function(properties){
+				// 背景图
+				if(properties.image){
+					if(properties.image.value){
+						document.body.style.backgroundImage = "url('file:///"+ properties.image.value +"')";
+					}else{
+						document.body.style.backgroundImage = "url('1.jpg')";
+					}
+				};
+				// 背景图填充方式
+				if(properties.imageFill){
+					var size = '100% 100%';
+					var repeat = 'no-repeat';
+					switch(properties.imageFill.value){
+						case 1: // 填充
+							size = 'cover';
+							break;
+						case 2: // 适应
+							size = 'contain';
+							break;
+						case 3: // 拉伸
+							size = '100% 100%';
+							break;
+						case 4: // 平铺
+							size = 'initial';
+							repeat = 'repeat';
+							break;
+						case 5: // 居中
+							size = 'initial';
+							break;
+					}
+					document.body.style.backgroundSize = size;
+					document.body.style.backgroundRepeat = repeat;
+				};
+				// 样式
+				if(properties.style){
+					param.style = properties.style.value;
+				};
+				// 半径
+				if(properties.radius){
+					param.r = properties.radius.value/100;
+				};
+				// 幅度
+				if(properties.range){
+					param.range = properties.range.value/5;
+				};
+				// 颜色
+				if(properties.color){
+					var c = properties.color.value.split(' ').map(function(c){return Math.ceil(c*255)});
+					param.color = 'rgba('+ c +',0.8)';
+					setCan();
+				};
+				// 模糊颜色
+				if(properties.blurColor){
+					var c = properties.blurColor.value.split(' ').map(function(c){return Math.ceil(c*255)});
+					param.blurColor = 'rgb('+ c +')';
+					setCan();
+				};
+				// 是否显示时间
+				if(properties.showTime){
+					oClock.style.display = properties.showTime.value ? 'block' : 'none';
+				};
+				// 圆的位置
+				if(properties.cX){
+					param.cX = properties.cX.value*0.01;
+				};
+				if(properties.cY){
+					param.cY = properties.cY.value*0.01;
+				};
+				// 时间的位置
+				if(properties.tX){
+					param.tX = properties.tX.value;
+					oClock.style.left = param.tX-50+'%';
+				};
+				if(properties.tY){
+					param.tY = properties.tY.value;
+					oClock.style.top = param.tY-50+'%';
+				};
+				if(properties.calX){
+					param.calX = properties.calX.value;
+					calendar.style.left = 85/100*param.calX+'%';
+				};
+				if(properties.calY){
+					param.calY = properties.calY.value;
+					calendar.style.top = 70/100*param.calY+'%';
+				};
+				// 时间大小
+				if(properties.tSize){
+					var s = properties.tSize.value;
+					oClock.style.fontSize = Math.floor(h/300*s) + 'px';
+				};
+				// 时间制式
+				if(properties.tStyle){
+					tStyle = properties.tStyle.value;
+					getTime();
+				};
+				// 是否旋转
+				if(properties.rotation){
+					param.rotation = properties.rotation.value;
+				};
+				// 线宽
+				if(properties.lineWidth){
+					ctx.lineWidth = param.lineWidth = properties.lineWidth.value;
+				};
+				if(properties.cal){
+					calendar.style.display = properties.cal.value ? 'block' : 'none';
+				};
+				if(properties.monster){
+					param.monster = properties.monster.value;
+					monstere();
+				};
+				// 是否显示圆
+				if(properties.showCircle){
+					param.showCircle = properties.showCircle.value;
+				};
+				// 是否模糊
+				if(properties.isBlur){
+					param.isBlur = properties.isBlur.value;
+					setCan();
+				};
+				if(param.monster){
+					param.showCircle = false;
+				}else{
+					param.isBlur = properties.isBlur.value;
+					setCan();
+				}
+			}
+		}
+		/* 生成点 */
+		function createPoint(arr){
+			param.arr1 = [];
+			param.arr2 = [];
+			for(var i=0; i<120; i++){
+				var deg = Math.PI/180*(i+param.offsetAngle)*3; //角度
+				var w1 = arr[i] ? arr[i] : 0;
+				var w2;
+				if(param.waveArr[i]){
+					w2 = param.waveArr[i] - 0.1;
+				}else{
+					w2 = 0;
+				};
+				w1 = Math.max(w1, w2);
+				param.waveArr[i] = w1 = Math.min(w1, 1.2);
+				var w = w1*param.range*100;
+				var offset1 = param.r*minW/2+w+1; // 外圆偏移
+				var offset2 = param.r*minW/2-w-1; // 内圆偏移
+				var p1 = getXY(offset1, deg);
+				var p2 = getXY(offset2, deg);
+				param.arr1.push({'x':p1.x, 'y':p1.y});
+				param.arr2.push({'x':p2.x, 'y':p2.y});
+			};
+			if(param.rotation){
+				param.offsetAngle += param.rotation/100;
+				if(param.offsetAngle>=360){
+					param.offsetAngle = 0;
+				}else if(param.offsetAngle<=0){
+					param.offsetAngle = 360;
+				}
+			};
+		};
+		function getXY(offset, deg){
+			return {'x':Math.cos(deg)*offset+param.cX*w, 'y':Math.sin(deg)*offset+param.cY*h};
+		};
+		createPoint([]);
+		/* 连线 */
+		function style1(){
+			// 外圆
+			ctx.beginPath();
+			ctx.moveTo(param.arr1[0].x, param.arr1[0].y);
+			for(var i=0; i<120; i++){
+				ctx.lineTo(param.arr1[i].x, param.arr1[i].y);
+			};
+			ctx.closePath();
+			ctx.stroke();
+			// 内圆
+			ctx.beginPath();
+			ctx.moveTo(param.arr2[0].x, param.arr2[0].y);
+			for(var i=0; i<120; i++){
+				ctx.lineTo(param.arr2[i].x, param.arr2[i].y);
+			};
+			ctx.closePath();
+			ctx.stroke();
+			// 内外圆连线
+			ctx.beginPath();
+			for(var i=0; i<120; i++){
+				ctx.moveTo(param.arr1[i].x, param.arr1[i].y);
+				ctx.lineTo(param.arr2[i].x, param.arr2[i].y);
+			};
+			ctx.closePath();
+			ctx.stroke();
+		};
+		function style2(){
+			// 内外圆连线
+			ctx.beginPath();
+			for(var i=0; i<120; i++){
+				ctx.moveTo(param.arr1[i].x, param.arr1[i].y);
+				ctx.lineTo(param.arr2[i].x, param.arr2[i].y);
+			};
+			ctx.closePath();
+			ctx.stroke();
+		};
+		style1();
+		window.wallpaperRegisterAudioListener && window.wallpaperRegisterAudioListener(wallpaperAudioListener);
+		function wallpaperAudioListener(arr){
+			param.arr = arr;
+		}
+		
+		function auto(){
+			ctx.clearRect(0,0,w,h);
+			createPoint(param.arr);
+			if( param.showCircle ){
+				switch (param.style) {
+					case 1:
+					style1();
+					break;
+					case 2:
+					style2();
+					break;
+				}
+			}
+			requestAnimFrame(auto);
+		}
+		auto();
+	</script>
+	
+</body>
+    <script type="text/javascript" src="countdown.js"></script>
+	
+	
+	
+	
+	
+	
+	
+	<script>
+    $(document).ready(function() {
+      $("#audioBox").fadeTo("fast", 0.0);
+      $("#audioBox").hover(
+        function() {
+          $("#audioBox").fadeTo("250", 1);
+        },
+        function() {
+          $("#audioBox").fadeTo("250", 0);
+        }
+      );
+    });
+
+    var maxIndex = 4;
+    var num = 0;
+    var musicPlayer = document.getElementById("Music");
+    musicPlayer.onended = function(){
+      if(++num >= maxIndex)
+      {
+        num = 0;
+      }
+      musicPlayer.src = "./bgm/bgm"+ num + ".ogg";
+      musicPlayer.play();
+    }
+  </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<!--<div id="show">测试</div>-->
+	

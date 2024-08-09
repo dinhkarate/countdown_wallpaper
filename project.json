@@ -1,0 +1,84 @@
+{
+	"contentrating" : "Everyone",
+	"description" : "Countdown to a specified time.",
+	"file" : "index.html",
+	"general" : 
+	{
+		"properties" : 
+		{
+			"counterlable" : 
+			{
+				"index" : 0,
+				"order" : 100,
+				"text" : "Counter Lable",
+				"type" : "textinput",
+				"value" : "ETA"
+			},
+			"date" : 
+			{
+				"index" : 3,
+				"order" : 103,
+				"text" : "Date",
+				"type" : "textinput",
+				"value" : "4"
+			},
+			"hour" : 
+			{
+				"index" : 4,
+				"order" : 104,
+				"text" : "Hour",
+				"type" : "textinput",
+				"value" : "22"
+			},
+			"minute" : 
+			{
+				"index" : 5,
+				"order" : 105,
+				"text" : "Minute",
+				"type" : "textinput",
+				"value" : "39"
+			},
+			"month" : 
+			{
+				"index" : 2,
+				"order" : 102,
+				"text" : "Month",
+				"type" : "textinput",
+				"value" : "9"
+			},
+			"schemecolor" : 
+			{
+				"order" : 0,
+				"text" : "ui_browse_properties_scheme_color",
+				"type" : "color",
+				"value" : "0 0 0"
+			},
+			"second" : 
+			{
+				"index" : 6,
+				"order" : 106,
+				"text" : "Second",
+				"type" : "textinput",
+				"value" : "15"
+			},
+			"year" : 
+			{
+				"index" : 1,
+				"order" : 101,
+				"text" : "Year",
+				"type" : "textinput",
+				"value" : "2023"
+			}
+		}
+	},
+	"preview" : "preview.jpg",
+	"tags" : [ "Technology" ],
+	"title" : "Countdown Wallpaper",
+	"type" : "web",
+	"version" : 1,
+	"workshopid" : "2858723053",
+	"workshopurl" : "steam://url/CommunityFilePage/2858723053"
+}
+
+
+

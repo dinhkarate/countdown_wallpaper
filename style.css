@@ -1,0 +1,238 @@
+@font-face {
+    font-family: "CustomAssetFont";
+    src: url('./Montserrat-VariableFont_wght.ttf'),url('./Montserrat-Italic-VariableFont_wght.ttf');
+}
+
+html {
+    height: 100%;
+}
+
+
+
+body {
+    font-family: CustomAssetFont;
+    background-image: linear-gradient(45deg, #575555 30%, #c5c5c5 30%);
+    color: #b8b8b8;
+    mix-blend-mode: difference;
+
+
+
+
+    overflow: hidden;
+}
+
+
+.squaredcheck {
+  width: 210px;
+  position: relative;
+  margin: 20px auto;
+  label {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    position: absolute;
+    top: 5px;
+    left: 0px;
+    background: lighten(#0096FF, 20%);
+    border-radius: 4px;
+    &:after {
+      content: '';
+      width: 10px;
+      height: 5px;
+      position: absolute;
+      top: 4px;
+      left: 3px;
+      border: 2px solid #fff;
+      border-top: none;
+      border-right: none;
+      background: transparent;
+      opacity: 0;
+      transform: rotate(-45deg);
+    }
+    &:hover::after {
+      opacity: 0.3;
+    }
+  }
+  span {
+    position: absolute;
+    width: 300px;
+    left: 30px;
+  }
+  input[type=checkbox] {
+    visibility: hidden;
+    &:checked + label {
+      background: #0096FF;
+    }
+    &:checked + label:after {
+      opacity: 1;
+    }
+    &.checkbox2 + label {
+      background: lighten(#329d7b, 20%);
+    }
+    &.checkbox2 {
+      &:checked + label {
+        background: #329d7b;
+      }
+    }
+
+    &.checkbox3 + label {
+      background: lighten(#CC66FF, 20%);
+    }
+    &.checkbox3 {
+      &:checked + label {
+        background: #CC66FF;
+      }
+    }
+  }
+}
+
+
+
+
+* {
+  padding: 0;
+  border: 0;
+  margin: 0;
+}
+#audioBox {
+  position: fixed;
+  padding: 10px;
+  right: 0;
+  z-index: 100;
+}
+audio{
+  outline: none;
+}
+#videoBox{
+  float: left;
+  position: relative;
+  left: 50%;
+  height: 100vh;
+}
+video {
+  position: relative;
+  left: -50%;
+  top: 0;
+  bottom: 0;
+  height: 100%;
+  width: auto;
+}
+.infoBox{
+  margin: 20px 0px;
+  padding: 20px 0px;
+  text-align: center;
+  font-size:14px;
+  color: black;
+  /* text-shadow: black 0.1em 0.1em 0.2em; */
+  background-color: white;
+  opacity: 1;
+  border-radius: 30px;
+  /* line-height: 3em; */
+  letter-spacing: 0.1em;
+  font-family: "Microsoft Yahei", sans-serif;
+}
+/* 预设分辨率大于1080时 */
+@media screen and (min-height:1080){
+  #videoBox, video{
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+
+    height: 100%;
+    width: 100%;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.container {
+  position: absolute;
+  text-align: left;
+  top: 35%;
+  right: 3%;
+}
+
+
+table.counter {
+    table-layout: fixed;
+}
+
+.counter {
+    position: absolute;
+    text-align: center;
+    top: 80%;
+    left: 50%;
+    width: 80%;
+    transform: translate(-50%, -50%);
+}
+
+.time-row {
+    font-size: 4em;
+}
+
+.lable-row {
+    font-size: 2em;
+    font-weight: bold;
+}
+
+.current-date, .current-time, .current-day {
+    text-align: center;
+    margin: auto;
+}
+
+.current {
+    position: absolute;
+    bottom: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
+.current-day {
+    font-size: 3em;
+}
+
+.current-time {
+    font-size: 6em;
+}
+
+.current-date {
+    font-size: 3em;
+}
+
+.counter-lable {
+    position: absolute;
+    text-align: center;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 4em;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
